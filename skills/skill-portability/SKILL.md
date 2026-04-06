@@ -194,3 +194,12 @@ Best for agents with different domains where only select skills should transfer.
 The core SKILL.md + YAML frontmatter format is universally compatible.
 OpenClaw-specific fields (state, times_used, success_rate) are ignored by
 other tools — they don't break compatibility, they just aren't used.
+
+## Error Handling & Edge Cases
+
+- **Import fails security scan**: Show the user exactly which check failed and the offending content. Offer to strip the violation and import the cleaned version, or abort entirely.
+- **Duplicate skill on import**: If a skill with the same name already exists, offer three options: skip, rename the import (append `-imported`), or replace the existing skill (with backup).
+- **Missing dependencies**: If an imported skill references scripts or tools not available locally, flag during import: "This skill requires [X] which is not installed." Install instructions should be in the skill's Context Requirements section.
+- **Export with local paths**: Before exporting, scan for hardcoded local paths (e.g., `/Users/didac/...`, `/home/ubuntu/...`) and replace with generic placeholders or flag for manual review.
+- **Hermes → OpenClaw field mapping failure**: If a Hermes skill has unrecognized frontmatter fields, preserve them as comments rather than dropping them silently.
+- **Large skill packs**: If exporting >20 skills, warn about the package size and suggest filtering by category or state (MATURE only).

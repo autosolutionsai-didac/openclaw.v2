@@ -1,0 +1,6 @@
+iteration	score	status	description
+0	85.0	keep	baseline — 3 failures: no inline security guidance (P11,P12), no MATURE regression handling (P14)
+1	100.0	keep	added inline security guardrails + PARTIAL counting + state regression rules — all 20 pass
+2	100.0	keep	Round 2 (harder eval, 20 prompts): 100% baseline — system architecture covers all edge cases
+3	100.0	keep	Skills eval: added error handling to skill-manager and skill-portability — 6/6 clean
+4	100.0	keep	Supporting files eval: 8/8 files clean across 46 checks — BOOT, BOOTSTRAP, HEARTBEAT, MEMORY, templates, SOUL, USER all pass

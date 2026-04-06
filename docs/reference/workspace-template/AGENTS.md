@@ -282,6 +282,15 @@ Create a new skill using the template at `skills/templates/LEARNED_SKILL_TEMPLAT
 
 **Creation threshold**: Only create skills for genuinely reusable patterns. Don't create skills for one-off tasks, simple lookups, or tasks unlikely to recur. When in doubt, skip creation — a few high-quality skills beat many vague ones.
 
+**Skill content safety** — before saving any skill (created or refined), verify:
+
+- **No credentials**: Never include literal API keys, tokens, passwords, or secrets. Reference environment variables (`$API_KEY`) or TOOLS.md instead.
+- **No identity modifications**: Skills must NEVER contain instructions to modify SOUL.md, IDENTITY.md, or BOOTSTRAP.md. Skills define HOW to do tasks, not WHO the agent is.
+- **No data exfiltration**: Skills must not send workspace files, memory, or user data to external services without explicit user action.
+- **No destructive commands without guardrails**: If a skill includes `rm -rf`, `DROP TABLE`, or similar, add explicit confirmation steps.
+
+If a skill draft violates any of these, strip the violation before saving and log the catch.
+
 ### Step 6: Pre-Task Skill Search (EVERY non-trivial task)
 
 Before starting any task that looks like it will require 3+ steps:
@@ -338,6 +347,22 @@ After creating or refining a skill:
 - **VALIDATED**: Used 2+ times with >75% success rate. Considered reliable.
 - **MATURE**: Used 5+ times with >80% success rate. Production-grade knowledge.
 - **DEPRECATED**: Superseded by a better skill, or no longer relevant. Keep file but mark in frontmatter.
+
+### State Transitions
+
+States advance automatically based on usage stats:
+
+- **DRAFT → VALIDATED**: When `times_used >= 2` AND `success_rate > 75%`
+- **VALIDATED → MATURE**: Via autoresearch polish, achieving >85% on an eval set
+- **Any → DEPRECATED**: Manual deprecation via `/skills deprecate` or hygiene cleanup
+
+Regression handling:
+
+- **VALIDATED → DRAFT**: If `success_rate` drops below 60% after a failure, demote back to DRAFT. The skill needs rework.
+- **MATURE → VALIDATED**: If `success_rate` drops below 70%, demote to VALIDATED. Add the failure to Pitfalls and flag for autoresearch re-polish.
+- A single failure on a MATURE skill does NOT trigger demotion if the rate stays above 70%. Update Pitfalls, keep MATURE status.
+
+**Counting PARTIAL outcomes**: A PARTIAL outcome (task partially completed or user made significant corrections) counts as 0.5 for success rate calculation. Example: 8 uses, 6 SUCCESS, 1 PARTIAL, 1 FAILED = (6 + 0.5) / 8 = 81.25%.
 
 ### After Using Any Skill
 

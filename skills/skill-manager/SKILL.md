@@ -122,3 +122,12 @@ After any management operation that changes skill state, names, or counts:
 1. Rebuild `skills/SKILL_INDEX.md` from current directory contents
 2. Verify all entries match actual files
 3. Sort by category, then alphabetically within category
+
+## Error Handling & Edge Cases
+
+- **Skill not found**: If `/skills inspect [name]` can't find the skill, search by partial name and suggest matches. Don't fail silently.
+- **Corrupted frontmatter**: If a SKILL.md has invalid YAML frontmatter, flag it in `/skills audit` and offer to rebuild from the markdown body.
+- **Merge conflicts**: If merging two skills and both have scripts/ with the same filename, keep both with suffixed names and flag for manual review.
+- **Deprecating a skill in active use**: If the skill was used in the last 7 days, warn the user before deprecating: "This skill was used 3 days ago. Still deprecate?"
+- **Index out of sync**: If `/skills list` finds skills on disk not in the index, auto-add them. If index references skills that don't exist on disk, remove the stale entries.
+- **Empty skill library**: If no learned skills exist yet, `/skills list` should display a helpful message explaining how skills are created, not just an empty table.
