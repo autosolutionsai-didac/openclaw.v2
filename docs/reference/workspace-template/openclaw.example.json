@@ -1,0 +1,30 @@
+{
+  // OpenClaw configuration — Learning Loop Edition
+  // Copy to ~/.openclaw/openclaw.json and customize
+  //
+  // REQUIRED for the learning loop:
+  //   hooks.internal.enabled: true   (enables BOOT.md startup ritual)
+  //   heartbeat enabled               (enables weekly/monthly maintenance)
+
+  "agent": {
+    "model": "anthropic/claude-opus-4-6"
+  },
+
+  "agents": {
+    "defaults": {
+      "workspace": "~/.openclaw/workspace",
+
+      // Heartbeat: enables periodic learning loop maintenance
+      "heartbeat": {
+        "every": "30m"
+      }
+    }
+  },
+
+  // Boot hooks: enables BOOT.md startup ritual (loads skill index, memory, user model)
+  "hooks": {
+    "internal": {
+      "enabled": true
+    }
+  }
+}

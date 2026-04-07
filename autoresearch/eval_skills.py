@@ -7,6 +7,7 @@ import yaml, sys, re
 from pathlib import Path
 
 SKILLS = [
+    "skills/learning-loop-protocol/SKILL.md",
     "skills/memory-search-enhanced/SKILL.md",
     "skills/skill-autoresearch-polish/SKILL.md",
     "skills/skill-manager/SKILL.md",

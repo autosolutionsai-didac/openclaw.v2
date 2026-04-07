@@ -66,3 +66,10 @@ Example: "Requires access to the n8n instance and the workflow ID">
 
 <How to confirm the task succeeded after following this skill's approach.
 Be specific: "Check the API returns 200 with a non-empty body" not just "verify it works">
+
+## Changelog
+
+<!-- The agent appends entries here when refining the skill. Format: -->
+<!-- - vN (YYYY-MM-DD): [what changed and why] -->
+
+- v1 (<YYYY-MM-DD>): Initial creation from task completion
